@@ -88,21 +88,19 @@
                             <h5 class="text-muted">Tujuan Pengirim:</h5>
                             <div class="form-group">
                                 <label for="">Kota/Kabupaten</label>
-                                <select name="destination" id="" class="form-control">
-                                    <option value="#">-</option>
+                                <select name="destination" id="destination" class="form-control">
+                                    <option value="">-</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col">
                             <h5 class="text-muted">Pilih Expedisi:</h5>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">JNE</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                                <label class="form-check-label" for="inlineCheckbox2">TIKI</label>
-                            </div>
+                            @foreach ($courier as $kry => $value)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="{{$key}}" value="{{$value}}">
+                                    <label class="form-check-label" for="{{$key}}">{{$value->title}}</label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="form-row">

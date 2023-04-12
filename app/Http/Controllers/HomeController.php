@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Courier;
 use App\Models\Province;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,8 @@ class HomeController extends Controller
     {
         // return view('home');
         $province = $this->getProvince();
-        return view('home', compact('province'));
+        $courier = $this->getCourier();
+        return view('home', compact('province', 'courier'));
 
     }
 
@@ -39,5 +41,31 @@ class HomeController extends Controller
     public function getCities ($id) 
     {
         return City::where('province_code', $id)->pluck('title', 'code');
+    }
+
+    public function searchCities(Request $request) 
+    {
+        $search = $request->search;
+
+        if (empty($search)) {
+            $cities = City::orderBy('title', 'asc')->select('id', 'title')->limit(5)->get();
+        } else {
+            $cities = City::orderBy('title', 'asc')->where('title', 'like', '%'.$search.'%')->select('id', 'title')->limit(5)->get();;
+        }
+
+        $respone = [];
+
+        foreach ($cities as $city) {
+            $respone[] = [
+                'id' => $city->id,
+                'text' => $city->title
+            ];
+        }
+
+        return json_encode($respone);
+    }
+
+    public function getCourier() {
+        return Courier::all();
     }
 }
